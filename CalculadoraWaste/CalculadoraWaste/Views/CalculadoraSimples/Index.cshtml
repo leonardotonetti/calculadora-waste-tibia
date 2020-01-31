@@ -3,7 +3,76 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="card z-depth-5">
-    <h2>teste</h2>
+<div class="card-panel">
+    <div class="row" style="margin-bottom: 0">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="mdi-action-account-circle prefix">
+                        <img src="src/gifs/Outfiter.gif" />
+                    </i>
+                    <input id="txtNumeroMembros" type="text" onchange="changeNumeroMembros(this)">
+                    <label>Número de membros da party</label>
+                </div>
+            </div>
+            <div id="divMembrosParty">
+                <div class="card-panel clone" style="padding: 10px; display: none">
+                    <div class="col s12">
+                        <a class="btn-floating waves-effect waves-light right grey lighten-1"><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="mdi-action-account-circle prefix active">
+                                <img src="src/images/classe1.jpg" />
+                            </i>
+                            <input type="text">
+                            <label>Nome</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="mdi-communication-email prefix active">
+                                <img src="src/gifs/Gold_Coin.gif" />
+                            </i>
+                            <input class="money" type="text">
+                            <label>Balance</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 0">
+                <div class="input-field col s12">
+                    <button class="btn cyan waves-effect waves-light right grey lighten-1" type="submit" name="action">
+                        <i class="material-icons left">send</i>
+                        Calcular
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+@section Scripts
+{
+    <script>
+        $("#txtNumeroMembros").mask("99");
+
+        function changeNumeroMembros(element) {
+            var numeroMembros = element.value;
+
+            $("#divMembrosParty").find(".card-panel").not(".clone").remove();
+
+            if (!numeroMembros)
+                return;
+
+            for (var i = 0; i < numeroMembros; i++) {
+                var clone = $("#divMembrosParty").find(".clone").clone();
+                clone.removeClass("clone");
+                clone.find(".money").mask("999.999.999.999.999,00");
+                clone.show();
+
+                clone.find("img").first().attr("src", "src/images/classe" + (Math.floor(Math.random() * 4) + 1) + ".jpg");
+                $("#divMembrosParty").append(clone);
+            }
+        }
+    </script>
+}
+
 
