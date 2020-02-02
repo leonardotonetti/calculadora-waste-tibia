@@ -19,7 +19,7 @@ namespace CalculadoraWaste.Controllers
         public ActionResult Calcular(List<MembroPartyViewModel> membrosParty)
         {
             var balanceTotalParty = membrosParty.Sum(x => x.Balance);
-            var balancePorMembro = decimal.Round(balanceTotalParty / membrosParty.Count, 2);
+            var balancePorMembro = decimal.Round(balanceTotalParty / membrosParty.Count);
             var membrosComBalanceMaior = membrosParty.Where(x => x.Balance > balancePorMembro);
             var listaPagamentos = new List<MembroPartyViewModel>();
 

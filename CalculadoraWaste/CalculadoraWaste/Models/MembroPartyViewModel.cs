@@ -11,5 +11,7 @@ namespace CalculadoraWaste.Models
         public decimal Balance { get; set; }
         public decimal ValorPagar { get; set; }
         public string PagarPara { get; set; }
+
+        public string NomeValorPagar => $"{ValorPagar:N0} GP";
     }   
 }
