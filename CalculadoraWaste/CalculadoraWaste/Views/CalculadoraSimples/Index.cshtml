@@ -1,9 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
-<div class="card-panel">
+<div class="card-panel" id="divCalculadoraSimples">
     <div class="row" style="margin-bottom: 0">
         <form class="col s12">
             <div class="row">
@@ -18,21 +17,21 @@
             <div id="divMembrosParty">
                 <div class="card-panel clone" style="padding: 10px; display: none">
                     <div class="col s12">
-                        <a class="btn-floating waves-effect waves-light right grey lighten-1"><i class="material-icons">clear</i></a>
+                        <a class="btn-floating waves-effect waves-light right grey lighten-1" onclick="removerMembro(this)"><i class="material-icons">clear</i></a>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="mdi-action-account-circle prefix active">
                                 <img src="src/images/classe1.jpg" />
                             </i>
-                            <input type="text">
+                            <input type="text" id="txtNome">
                             <label>Nome</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="mdi-communication-email prefix active">
                                 <img src="src/gifs/Gold_Coin.gif" />
                             </i>
-                            <input class="money" type="text">
+                            <input class="money" type="number" id="txtBalance">
                             <label>Balance</label>
                         </div>
                     </div>
@@ -40,7 +39,7 @@
             </div>
             <div class="row" style="margin-bottom: 0">
                 <div class="input-field col s12">
-                    <button class="btn cyan waves-effect waves-light right grey lighten-1" type="submit" name="action">
+                    <button class="btn cyan waves-effect waves-light right grey lighten-1" id="btnCalcular" type="button" disabled onclick="calcular()">
                         <i class="material-icons left">send</i>
                         Calcular
                     </button>
@@ -49,6 +48,8 @@
         </form>
     </div>
 </div>
+<div id="divResultado"></div>
+
 @section Scripts
 {
     <script>
@@ -58,19 +59,51 @@
             var numeroMembros = element.value;
 
             $("#divMembrosParty").find(".card-panel").not(".clone").remove();
+            $("#btnCalcular").removeAttr("disabled");
 
-            if (!numeroMembros)
+            if (!$(element).val() || $(element).val() == 0) {
+                $("#btnCalcular").attr("disabled", true);
                 return;
+            }
 
             for (var i = 0; i < numeroMembros; i++) {
                 var clone = $("#divMembrosParty").find(".clone").clone();
                 clone.removeClass("clone");
-                clone.find(".money").mask("999.999.999.999.999,00");
                 clone.show();
 
                 clone.find("img").first().attr("src", "src/images/classe" + (Math.floor(Math.random() * 4) + 1) + ".jpg");
                 $("#divMembrosParty").append(clone);
             }
+        }
+
+        function removerMembro(element) {
+            $(element).closest(".card-panel").remove();
+
+            if (!$("#divMembrosParty").find(".card-panel").not(".clone").length) {
+                $("#txtNumeroMembros").val("").trigger("change");
+            }
+        }
+
+        function calcular() {
+            if (!$("#divMembrosParty").find(".card-panel").not(".clone").length)
+                return;
+
+            var membrosParty = [];
+
+            $("#divMembrosParty").find(".card-panel").not(".clone").each(function() {
+                membrosParty.push({
+                    Nome: $(this).find("#txtNome").val(),
+                    Balance: $(this).find("#txtBalance").val()
+                });
+            });
+
+            $.post('@Url.Action("Calcular")', { membrosParty: membrosParty }).done(function(data) {
+                $("#divCalculadoraSimples").slideUp(200, function() {
+                    $("#divResultado").html(data).slideDown(200);
+                });
+            }).fail(function(xhr) {
+
+            });
         }
     </script>
 }
