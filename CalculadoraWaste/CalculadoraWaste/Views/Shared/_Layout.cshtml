@@ -7,7 +7,7 @@
     <!-- Font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body style="background: url(/src/images/Screen.jpg) fixed center center no-repeat">
+<body style="background: url(/src/images/tibiascreen.jpg) fixed center center no-repeat">
     <nav class="grey lighten-1">
         <div class="nav-wrapper">
             <div class="left">
@@ -16,13 +16,23 @@
                 </a>
             </div>
             <div class="center">
-                <label style="font-size:x-large; color:black; text-transform:uppercase; font-weight:bold">Calculadora Waste by Leleo Knight</label>
+                <label style="font-size:x-large; color:black; text-transform:uppercase; font-weight:bold">Calculadora Waste</label>
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" style="min-height: 850px;">
         @RenderBody()
     </div>
+    <footer class="page-footer grey lighten-1">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2020 Desenvolvida e mantida por Leleo Knight
+                <a class="grey-text text-lighten-4 right" href="https://github.com/leonardotonetti/calculadora-waste-tibia">
+                    <img class="responsive-img" src="src/images/gitgubmark.jpg"/>
+                </a>
+            </div>
+        </div>
+    </footer>
 
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
